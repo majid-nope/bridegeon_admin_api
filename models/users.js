@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 const userModel = mongoose.Schema({
   name: String,
   email: String,
-  batch: String,
+  batch: Number,
   attendance: Array,
   performance: Number,
 });

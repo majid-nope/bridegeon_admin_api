@@ -2,9 +2,15 @@ const users = require("../models/users");
 
 const user = {
   getAll(req, res) {
+    console.log(req.query);
+    const limit = Number(req.query.limit);
+    const page = Number(req.query.page);
+    const batch = Number(req.query.batch);
+
+    // console.log(limit, page);
     users
       .find(
-        {},
+        { batch: batch },
         {
           name: 1,
           email: 1,
@@ -13,16 +19,34 @@ const user = {
           batch: 1,
         }
       )
-      .limit(req.query.limit)
-      .skip(req.query.limit * req.query.page)
+      .limit(limit)
+      .skip(limit * page)
       .then((data) => {
-        res.json(data);
+        users.count({ batch }).then((count) => {
+          res.json({
+            data,
+            total: Math.floor(count / limit),
+          });
+        });
       });
   },
   getOne() {},
   delete(req, res) {},
   updateOne() {},
-  updateMany() {},
+  updateAttendance(req, res) {
+    const bulkAttendance = req.body.map((el) => {
+      const { id, data } = req.body;
+      return {
+        updateOne: {
+          filter: { _id: el.id },
+          update: { $push: { attendance: data } },
+        },
+      };
+    });
+
+    users.bulkWrite(bulkAttendance);
+    console.log(req.body);
+  },
 };
 
 module.exports = user;
