@@ -33,18 +33,21 @@ const user = {
   getOne() {},
   delete(req, res) {},
   updateOne() {},
-  updateAttendance(req, res) {
+  attendance(req, res) {
     const bulkAttendance = req.body.map((el) => {
-      const { id, data } = req.body;
+      console.log(el);
+      const { id, attendance } = el;
       return {
         updateOne: {
-          filter: { _id: el.id },
-          update: { $push: { attendance: data } },
+          filter: { _id: el.id ,"attendance.date": { $ne: attendance.date }},
+          update: { $addToSet: { attendance } },
         },
       };
     });
 
-    users.bulkWrite(bulkAttendance);
+    users.bulkWrite(bulkAttendance).then((data) => {
+      console.log(data);
+    });
     console.log(req.body);
   },
 };

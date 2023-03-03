@@ -3,6 +3,6 @@ const user = require("../controllers/users");
 const router = express.Router();
 
 router.route("/").get(user.getAll);
-router.route("/attendance").put(user.updateAttendance);
+router.route("/attendance").put(user.attendance);
 
 module.exports = router;
