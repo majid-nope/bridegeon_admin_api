@@ -7,7 +7,6 @@ const user = {
     const page = Number(req.query.page);
     const batch = Number(req.query.batch);
 
-    // console.log(limit, page);
     users
       .find(
         { batch: batch },
@@ -34,12 +33,16 @@ const user = {
   delete(req, res) {},
   updateOne() {},
   attendance(req, res) {
+    // req.body.forEach()
     const bulkAttendance = req.body.map((el) => {
       console.log(el);
       const { id, attendance } = el;
       return {
         updateOne: {
-          filter: { _id: el.id ,"attendance.date": { $ne: attendance.date }},
+          filter: {
+            _id: el.id,
+            "attendance.date": { $ne: attendance.date, $ne: attendance.reason },
+          },
           update: { $addToSet: { attendance } },
         },
       };
@@ -47,6 +50,7 @@ const user = {
 
     users.bulkWrite(bulkAttendance).then((data) => {
       console.log(data);
+      res.status(200).send("successfully updated");
     });
     console.log(req.body);
   },
