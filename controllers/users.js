@@ -5,13 +5,13 @@ const users = require("../models/users");
 const user = {
   add(req, res) {
     const user = req.body;
-    // const fields = {
-    //   email: "Email",
-    //   password: "Password",
-    //   phone: "Phone",
-    //   name: "Your name",
-    //   batch: "Batch",
-    // };
+    const fields = {
+      email: "Email",
+      password: "Password",
+      phone: "Phone",
+      name: "Your name",
+      batch: "Batch",
+    };
     req.body.forEach((el) => {
       switch (el.title) {
         case fields.name:
