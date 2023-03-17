@@ -46,10 +46,11 @@ const user = {
   },
   getAll(req, res) {
     console.log(req.query);
-    const limit = Number(req.query.limit);
-    const page = Number(req.query.page);
-    const batch = Number(req.query.batch);
-
+    const limit = req.query.limit;
+    const page = req.query.page;
+    const batch = req.query.batch;
+    console.log(batch);
+    
     users
       .find(
         { batch: batch },
@@ -61,6 +62,7 @@ const user = {
           batch: 1,
         }
       )
+
       .limit(limit)
       .skip(limit * page)
       .then((data) => {

@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-const userModel = mongoose.Schema(
+const userModel = new mongoose.Schema(
   {
     phone: {
       type: String,
@@ -96,4 +96,4 @@ const userModel = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("users", userModel);
+module.exports = mongoose.model("users", userModel, "users");
