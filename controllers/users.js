@@ -18,7 +18,7 @@ const user = {
           const Chapters = course.chapter;
 
           console.log(course);
-          userModel
+          users
             .create({
               ...user,
               progress: [
