@@ -100,9 +100,9 @@ const user = {
         });
       });
   },
-  getOne() {},
-  delete(req, res) {},
-  updateOne() {},
+  getOne() { },
+  delete(req, res) { },
+  updateOne() { },
   attendance(req, res) {
     // req.body.forEach()
     const bulkAttendance = req.body.map((el) => {
@@ -125,6 +125,15 @@ const user = {
     });
     console.log(req.body);
   },
+  getBatch(req, res) {
+    users.aggregate([
+      { $group: { batch: "$batch", count: { $sum: 1 } } }
+    ]).then(data => {
+      res.status(200).json(data)
+    }).catch(err => {
+      res.status(500).json(err)
+    })
+  }
 };
 
 module.exports = user;
