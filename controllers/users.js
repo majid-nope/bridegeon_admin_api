@@ -5,35 +5,7 @@ const users = require("../models/users");
 const user = {
   add(req, res) {
     const user = req.body;
-    const fields = {
-      email: "Email",
-      password: "Password",
-      phone: "Phone",
-      name: "Your name",
-      batch: "Batch",
-    };
-    req.body.forEach((el) => {
-      switch (el.title) {
-        case fields.name:
-          user.name = el.value;
-          break;
 
-        case fields.password:
-          user.password = el.value;
-          break;
-        case fields.email:
-          user.email = el.value;
-          break;
-        case fields.phone:
-          user.phone = el.value;
-          break;
-        case fields.batch:
-          user.batch = el.value;
-        default:
-          break;
-      }
-    });
-    console.log(user);
     if (user.password) {
       bcryptTool.GenHash(user.password, 10).then((hashedPassword) => {
         user.password = hashedPassword;
@@ -46,7 +18,7 @@ const user = {
           const Chapters = course.chapter;
 
           console.log(course);
-          userModel
+          users
             .create({
               ...user,
               progress: [
@@ -74,10 +46,11 @@ const user = {
   },
   getAll(req, res) {
     console.log(req.query);
-    const limit = Number(req.query.limit);
-    const page = Number(req.query.page);
-    const batch = Number(req.query.batch);
-
+    const limit = req.query.limit;
+    const page = req.query.page;
+    const batch = req.query.batch;
+    console.log(batch);
+    
     users
       .find(
         { batch: batch },
@@ -89,6 +62,7 @@ const user = {
           batch: 1,
         }
       )
+
       .limit(limit)
       .skip(limit * page)
       .then((data) => {
