@@ -50,7 +50,7 @@ const user = {
     const page = req.query.page;
     const batch = req.query.batch;
     console.log(batch);
-    
+
     users
       .find(
         { batch: batch },
@@ -101,7 +101,7 @@ const user = {
   },
   getBatch(req, res) {
     users.aggregate([
-      { $group: { batch: "$batch", count: { $sum: 1 } } }
+      { $group: { _id: "$batch", count: { $sum: 1 } } }
     ]).then(data => {
       res.status(200).json(data)
     }).catch(err => {
